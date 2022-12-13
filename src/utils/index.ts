@@ -3,11 +3,7 @@ import { MAX_CELLS } from "./constants";
 
 export const generateTable = (rows: number, columns: number) => {
   return [...Array(rows)].map((_) => ({
-    ...Array(columns)
-      .fill("")
-      .map((el, i) => ({
-        header: `${i + 1}`,
-      })),
+    ...Array(columns).fill(""),
   }));
 };
 

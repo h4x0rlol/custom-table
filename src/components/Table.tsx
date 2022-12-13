@@ -30,10 +30,16 @@ export const Table = memo(
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                <th> </th>
+                <th className="text-white bg-slate-500 border-black border-1 border-solid">
+                  {" "}
+                </th>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <th key={header.id} colSpan={header.colSpan}>
+                    <th
+                      key={header.id}
+                      className="text-white sticky top-0 bg-slate-500 border-black border-1 border-solid"
+                      colSpan={header.colSpan}
+                    >
                       {header.isPlaceholder ? null : (
                         <div>
                           {flexRender(
@@ -52,7 +58,9 @@ export const Table = memo(
             {table.getRowModel().rows.map((row, i) => {
               return (
                 <tr key={row.id}>
-                  <th>{i + 1}</th>
+                  <th className="text-white sticky left-0  border-black border-1 border-solid">
+                    {i + 1}
+                  </th>
                   {row.getVisibleCells().map((cell, j) => (
                     <Cell key={cell.id} />
                   ))}

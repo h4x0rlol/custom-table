@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { Table } from "./components/Table";
 import {
   generateHeaderColumns,
@@ -32,12 +32,6 @@ const App = (): JSX.Element => {
     [debouncedCols]
   );
 
-  useEffect(() => {
-    console.log("aaa");
-    console.log(cells);
-    console.log(columns);
-  }, [debouncedRows, debouncedCols, cells]);
-
   return (
     <div className="flex flex-col h-screen m-2">
       <form>
@@ -64,7 +58,6 @@ const App = (): JSX.Element => {
           />
         </label>
       </form>
-
       <Table data={cells} columns={columns} />
     </div>
   );

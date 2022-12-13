@@ -16,6 +16,7 @@ html {
 table {
   border-top: 1px solid lightgray;
   border-left: 1px solid lightgray;
+  position: relative;
 }
 
 tbody {
@@ -23,9 +24,8 @@ tbody {
 }
 
 th {
-  border-bottom: 1px solid lightgray;
-  border-right: 1px solid lightgray;
   padding: 2px 4px;
+  background-color: rgb(39 39 42);
 }
 
 td {
