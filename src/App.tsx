@@ -1,34 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { Table } from "./components/Table";
+import {
+  generateHeaderColumns,
+  generateTable,
+  preventOutOfRange,
+} from "./utils";
+import { DEBOUNCE_DELAY, MAX_CELLS, MIN_CELLS } from "./utils/constants";
+import useDebounce from "./utils/useDebounce";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = (): JSX.Element => {
+  const [n, setN] = useState<number>(5);
+  const [m, setM] = useState<number>(5);
+  const debouncedRows = useDebounce<number>(n, DEBOUNCE_DELAY);
+  const debouncedCols = useDebounce<number>(m, DEBOUNCE_DELAY);
+
+  const handleRowsChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setN(preventOutOfRange(Number(e.target.value)));
+  };
+
+  const handleColumnsChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setM(preventOutOfRange(Number(e.target.value)));
+  };
+
+  const cells = useMemo(
+    () => generateTable(debouncedRows, debouncedCols),
+    [debouncedRows, debouncedCols]
+  );
+
+  const columns = useMemo(
+    () => generateHeaderColumns(debouncedCols),
+    [debouncedCols]
+  );
+
+  useEffect(() => {
+    console.log("aaa");
+    console.log(cells);
+    console.log(columns);
+  }, [debouncedRows, debouncedCols, cells]);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+    <div className="flex flex-col h-screen m-2">
+      <form>
+        <label>
+          N:
+          <input
+            type="number"
+            min={MIN_CELLS}
+            max={MAX_CELLS}
+            className="border"
+            value={n}
+            onChange={handleRowsChange}
+          />
+        </label>
+        <label>
+          M:
+          <input
+            type="number"
+            min={MIN_CELLS}
+            max={MAX_CELLS}
+            className="border"
+            value={m}
+            onChange={handleColumnsChange}
+          />
+        </label>
+      </form>
 
-export default App
+      <Table data={cells} columns={columns} />
+    </div>
+  );
+};
+
+export default App;
